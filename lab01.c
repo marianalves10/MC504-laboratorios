@@ -9,9 +9,9 @@ typedef struct
     int (* tabuleiro)[9];
 } auxiliar;
 
-void * walk_linhas(void * params);
+void * percorrer_linhas(void * params);
 
-void * walk_colunas(void * params);
+void * percorrer_colunas(void * params);
 
 void * check_quadrado(void * params);
 
@@ -96,8 +96,8 @@ int main(void)
 
     pthread_t thread_linhas, thread_colunas, thread1, thread2, thread3, thread4, thread5, thread6, thread7, thread8, thread9;
 
-    pthread_create(&thread_linhas, NULL, walk_linhas, vetor[0]);
-    pthread_create(&thread_colunas, NULL, walk_colunas, vetor[0]);
+    pthread_create(&thread_linhas, NULL, percorrer_linhas, vetor[0]);
+    pthread_create(&thread_colunas, NULL, percorrer_colunas, vetor[0]);
     pthread_create(&thread1, NULL, check_quadrado, vetor[1]);
     pthread_create(&thread2, NULL, check_quadrado, vetor[2]);
     pthread_create(&thread3, NULL, check_quadrado, vetor[3]);
