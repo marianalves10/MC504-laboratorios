@@ -128,4 +128,21 @@ int main(void)
     }
     
     return 0;
+    
+    // funçao que checa se as colunas estäo preenchidas com digitos validos
+    void * percorrer_colunas(void * params) {
+    auxiliar * dado = (auxiliar *) params;
+    int comeco_linha = dado -> linha, comeco_coluna = dado -> coluna;
+    for ( int i = comeco_coluna; i <= 10; i++) {
+        int coluna[10] =  {0};
+        for( int j = comeco_linha; j <= 10; j ++) {
+            int num = dado->tabuleiro[j][i];
+            if (coluna[num] == 0) {
+                return (void*) 0; // a coluna nao esta preenchida
+            }
+            coluna[num] = 1;
+        }
+    }
+    return (void*) 1; // todas as colunas tem numeros de 1 a 9
+    }
 }
