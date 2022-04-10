@@ -1,0 +1,8 @@
+# MC504-laboratorios
+Grupo de MC504.
+
+# RA
+216213
+224707
+241997
+241201
