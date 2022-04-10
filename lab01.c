@@ -19,65 +19,65 @@ int main(void)
 {
 
     int tabuleiro[9][9] = {  
-            {5, 3, 4, 6, 7, 8, 9, 1, 2},
-            {6, 7, 2, 1, 9, 5, 3, 4, 8},
-            {1, 9, 8, 3, 4, 2, 5, 6, 7},
-            {8, 5, 9, 7, 6, 1, 4, 2, 3},
-            {4, 2, 6, 8, 5, 3, 7, 9, 1},
-            {7, 1, 3, 9, 2, 4, 8, 5, 6},
-            {9, 6, 1, 5, 3, 7, 2, 8, 4},
-            {2, 8, 7, 4, 1, 9, 6, 3, 5},
-            {3, 4, 5, 2, 8, 6, 1, 7, 9}
+            {6, 2, 4, 5, 3, 9, 1, 8, 7},
+            {5, 1, 9, 7, 2, 8, 6, 3, 4},
+            {8, 3, 7, 6, 1, 4, 2, 9, 5},
+            {1, 4, 3, 8, 6, 5, 7, 2, 9},
+            {9, 5, 8, 2, 4, 7, 3, 6, 1},
+            {7, 6, 2, 3, 9, 1, 4, 5, 8},
+            {3, 7, 1, 9, 5, 6, 8, 4, 2},
+            {4, 9, 6, 1, 8, 2, 5, 7, 3},
+            {2, 8, 5, 4, 7, 3, 9, 1, 6}
         };
     
-    auxiliar **vetor = malloc(sizeof(auxiliar *));
+    auxiliar **vetor = malloc(sizeof(auxiliar *)*10);
 
-    auxiliar * vetor[0] = malloc(sizeof(auxiliar));
+    vetor[0] = malloc(sizeof(auxiliar));
     vetor[0]->linha = 0;
     vetor[0]->coluna = 0;
     vetor[0]->tabuleiro = tabuleiro;
 
-    auxiliar * vetor[1] = malloc(sizeof(auxiliar));
+    vetor[1] = malloc(sizeof(auxiliar));
     vetor[1]->linha = 0;
     vetor[1]->coluna = 0;
     vetor[1]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[2] = malloc(sizeof(auxiliar));
+    vetor[2] = malloc(sizeof(auxiliar));
     vetor[2]->linha = 0;
     vetor[2]->coluna = 3;
     vetor[2]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[3] = malloc(sizeof(auxiliar));
+    vetor[3] = malloc(sizeof(auxiliar));
     vetor[3]->linha = 0;
     vetor[3]->coluna = 6;
     vetor[3]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[4] = malloc(sizeof(auxiliar));
+    vetor[4] = malloc(sizeof(auxiliar));
     vetor[4]->linha = 3;
     vetor[4]->coluna = 0;
     vetor[4]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[5] = malloc(sizeof(auxiliar));
+    vetor[5] = malloc(sizeof(auxiliar));
     vetor[5]->linha = 3;
     vetor[5]->coluna = 3;
     vetor[5]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[6] = malloc(sizeof(auxiliar));
+    vetor[6] = malloc(sizeof(auxiliar));
     vetor[6]->linha = 3;
     vetor[6]->coluna = 6;
     vetor[6]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[7] = malloc(sizeof(auxiliar));
+    vetor[7] = malloc(sizeof(auxiliar));
     vetor[7]->linha = 6;
     vetor[7]->coluna = 0;
     vetor[7]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[8] = malloc(sizeof(auxiliar));
+    vetor[8] = malloc(sizeof(auxiliar));
     vetor[8]->linha = 6;
     vetor[8]->coluna = 3;
     vetor[8]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[9] = malloc(sizeof(auxiliar));
+    vetor[9] = malloc(sizeof(auxiliar));
     vetor[9]->linha = 6;
     vetor[9]->coluna = 6;
     vetor[9]->tabuleiro = tabuleiro;
@@ -124,6 +124,7 @@ int main(void)
         printf("Sudoku está completo!\n");
     }
     else {
+        printf("%d, %d, %p",linhas, colunas, quadrado1);
         printf("Sudoku não está resolvido!.\n");
     }
     
@@ -161,9 +162,9 @@ void * percorrer_linhas(void * params){
     auxiliar * aux =(auxiliar *) params;
     int linha_inicial = aux->linha, coluna_inicial = aux->coluna;
 
-    for (int i = 0; i <= 10; i++){
+    for (int i = linha_inicial; i < 9; ++i){
         int linhas[10] = {0};
-        for (int j = 0; j <= 10; j++){
+        for (int j = coluna_inicial; j < 9; ++j){
             int verificar_posicao = aux->tabuleiro[i][j];
             if (linhas[verificar_posicao] != 0){
                 return (void*) 0;
@@ -181,11 +182,11 @@ void * percorrer_linhas(void * params){
 void * percorrer_colunas(void * params) {
     auxiliar * dado = (auxiliar *) params;
     int comeco_linha = dado -> linha, comeco_coluna = dado -> coluna;
-    for ( int i = comeco_coluna; i <= 10; i++) {
+    for ( int i = comeco_coluna; i < 9; ++i) {
         int coluna[10] =  {0};
-        for( int j = comeco_linha; j <= 10; j ++) {
+        for( int j = comeco_linha; j <9; ++j) {
             int num = dado->tabuleiro[j][i];
-            if (coluna[num] == 0) {
+            if (coluna[num] != 0) {
                 return (void*) 0; // a coluna nao esta preenchida
             }
             coluna[num] = 1;
