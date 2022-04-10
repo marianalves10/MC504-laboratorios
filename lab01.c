@@ -30,7 +30,7 @@ int main(void)
             {3, 4, 5, 2, 8, 6, 1, 7, 9}
         };
     
-    auxiliar **vetor = malloc(sizeof(auxiliar *))
+    auxiliar **vetor = malloc(sizeof(auxiliar *));
 
     auxiliar * vetor[0] = malloc(sizeof(auxiliar));
     vetor[0]->linha = 0;
@@ -128,9 +128,57 @@ int main(void)
     }
     
     return 0;
+}
+
+// checa se um quadrado 3x3 contém todos os números de 1 a 9, aparecendo exatamente 1 vez cada.
+// recebe um apontador para os parâmetros (dados da posição do quadrado e o tabuleiro)
+// retorna 0 em caso de algum número repetido ou faltate, 1 caso contrário 
+void* check_quadrado(void* parametros) {
+    auxiliar* quadrado = (auxiliar*) parametros;
+    int contador[9] = {0};
+    int i,j;
+
+    // percorre todas as linhas do quadrado
+    for (i = quadrado->linha; i < 3; i ++) {
+        // percorre todas as colunas de uma linha
+        for (j = quadrado->coluna; j < 3; j++) {
+            // contador é atualizado com contagem de cada número até o momento
+            contador[quadrado->tabuleiro[i][j] - 1] += 1;
+        }
+    }
+    // se, ao final, o contador tiver algum número != 1, retornar 0
+    for (i = 0; i < 10; i++) {
+        if (contador[i] != 1) {
+            return (void *) 0;
+        }
+    }
+
+    // caso contrário (todos os números de 1 a 9 aparecem exatamente 1 vez), retornar 1
+    return (void *) 1;
+}
+
+void * percorrer_linhas(void * params){
+    auxiliar * aux =(auxiliar *) params;
+    int linha_inicial = aux->linha, coluna_inicial = aux->coluna;
+
+    for (int i = 0; i <= 10; i++){
+        int linhas[10] = {0};
+        for (int j = 0; j <= 10; j++){
+            int verificar_posicao = aux->tabuleiro[i][j];
+            if (linhas[verificar_posicao] != 0){
+                return (void*) 0;
+            }
+            else {
+                linhas[verificar_posicao] = 1;
+            }
+        }
+    }
+
+    return (void*) 1;
+}
     
-    // funçao que checa se as colunas estäo preenchidas com digitos validos
-    void * percorrer_colunas(void * params) {
+// funçao que checa se as colunas estäo preenchidas com digitos validos
+void * percorrer_colunas(void * params) {
     auxiliar * dado = (auxiliar *) params;
     int comeco_linha = dado -> linha, comeco_coluna = dado -> coluna;
     for ( int i = comeco_coluna; i <= 10; i++) {
@@ -144,5 +192,4 @@ int main(void)
         }
     }
     return (void*) 1; // todas as colunas tem numeros de 1 a 9
-    }
 }
