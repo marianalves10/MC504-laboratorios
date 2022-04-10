@@ -6,7 +6,7 @@ typedef struct
 {
     int linha;
     int coluna;
-    int (* tabuleiro)[9];
+    int (** tabuleiro);
 } auxiliar;
 
 void * percorrer_linhas(void * params);
@@ -15,20 +15,18 @@ void * percorrer_colunas(void * params);
 
 void * check_quadrado(void * params);
 
+
 int main(void) 
 {
-
-    int tabuleiro[9][9] = {  
-            {5, 7, 4, 6, 7, 8, 9, 1, 2},
-            {6, 7, 2, 1, 9, 5, 3, 4, 8},
-            {1, 9, 8, 3, 4, 2, 5, 6, 7},
-            {8, 5, 9, 7, 6, 1, 4, 2, 3},
-            {4, 2, 6, 8, 5, 3, 7, 9, 1},
-            {3, 1, 3, 9, 2, 4, 8, 5, 6},
-            {9, 6, 1, 5, 3, 7, 2, 8, 4},
-            {2, 8, 7, 4, 1, 9, 6, 3, 5},
-            {3, 4, 5, 2, 8, 6, 1, 7, 9}
-        };
+    int ** tabuleiro = malloc(sizeof(int *)* 9);
+    for (int i = 0; i < 9; i++){
+        tabuleiro[i] = malloc(sizeof(int)*9);
+    }
+    for ( int i=0; i<9; i++ ){
+        for ( int j=0; j<9; j++ ){
+            scanf ("%d", &tabuleiro[i][j]);
+        }
+    }
     
     auxiliar **vetor = malloc(sizeof(auxiliar *)*10);
 
@@ -121,10 +119,10 @@ int main(void)
     pthread_join(thread9, &quadrado9);
     
     if (linhas == 1 && colunas == 1 && quadrado1 == 1 && quadrado2 == 1 && quadrado3 == 1 && quadrado4 == 1 && quadrado5 == 1 && quadrado6 == 1 && quadrado7 == 1 && quadrado8 == 1 && quadrado9 == 1 ) {
-        printf("Sudoku está completo!\n");
+        printf("Sudoku está resolvido!\n");
     }
     else {
-        printf("Sudoku não está resolvido!.\n");
+        printf("Sudoku não está resolvido!\n");
     }
     
     return 0;
