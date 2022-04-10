@@ -133,7 +133,7 @@ int main(void)
 // retorna 0 em caso de algum número repetido ou faltate, 1 caso contrário 
 void* check_quadrado(void* parametros) {
     auxiliar* quadrado = (auxiliar*) parametros;
-    int contador[10] = {1};
+    int contador[9] = {0};
     int i,j;
 
     // percorre todas as linhas do quadrado
@@ -141,11 +141,11 @@ void* check_quadrado(void* parametros) {
         // percorre todas as colunas de uma linha
         for (j = quadrado->coluna; j < 3 + quadrado->coluna; ++j) {
             // contador é atualizado com contagem de cada número até o momento
-            contador[quadrado->tabuleiro[i][j]] += 1;
+            contador[quadrado->tabuleiro[i][j] - 1] += 1;
         }
     }
     // se, ao final, o contador tiver algum número != 1, retornar 0
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 9; i++) {
         if (contador[i] != 1) {
             return (void *) 0;
         }
