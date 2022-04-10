@@ -6,7 +6,7 @@ typedef struct
 {
     int linha;
     int coluna;
-    int (* tabuleiro)[9];
+    int (** tabuleiro);
 } auxiliar;
 
 void * percorrer_linhas(void * params);
@@ -15,69 +15,67 @@ void * percorrer_colunas(void * params);
 
 void * check_quadrado(void * params);
 
+
 int main(void) 
 {
-
-    int tabuleiro[9][9] = {  
-            {5, 3, 4, 6, 7, 8, 9, 1, 2},
-            {6, 7, 2, 1, 9, 5, 3, 4, 8},
-            {1, 9, 8, 3, 4, 2, 5, 6, 7},
-            {8, 5, 9, 7, 6, 1, 4, 2, 3},
-            {4, 2, 6, 8, 5, 3, 7, 9, 1},
-            {7, 1, 3, 9, 2, 4, 8, 5, 6},
-            {9, 6, 1, 5, 3, 7, 2, 8, 4},
-            {2, 8, 7, 4, 1, 9, 6, 3, 5},
-            {3, 4, 5, 2, 8, 6, 1, 7, 9}
-        };
+    int ** tabuleiro = malloc(sizeof(int *)* 9);
+    for (int i = 0; i < 9; i++){
+        tabuleiro[i] = malloc(sizeof(int)*9);
+    }
+    for ( int i=0; i<9; i++ ){
+        for ( int j=0; j<9; j++ ){
+            scanf ("%d", &tabuleiro[i][j]);
+        }
+    }
     
-    auxiliar **vetor = malloc(sizeof(auxiliar *));
+    auxiliar **vetor = malloc(sizeof(auxiliar *)*10);
 
-    auxiliar * vetor[0] = malloc(sizeof(auxiliar));
+    vetor[0] = malloc(sizeof(auxiliar));
     vetor[0]->linha = 0;
     vetor[0]->coluna = 0;
     vetor[0]->tabuleiro = tabuleiro;
 
-    auxiliar * vetor[1] = malloc(sizeof(auxiliar));
+    vetor[1] = malloc(sizeof(auxiliar));
     vetor[1]->linha = 0;
     vetor[1]->coluna = 0;
     vetor[1]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[2] = malloc(sizeof(auxiliar));
+    vetor[2] = malloc(sizeof(auxiliar));
     vetor[2]->linha = 0;
     vetor[2]->coluna = 3;
     vetor[2]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[3] = malloc(sizeof(auxiliar));
+    vetor[3] = malloc(sizeof(auxiliar));
     vetor[3]->linha = 0;
     vetor[3]->coluna = 6;
     vetor[3]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[4] = malloc(sizeof(auxiliar));
+    vetor[4] = malloc(sizeof(auxiliar));
     vetor[4]->linha = 3;
     vetor[4]->coluna = 0;
     vetor[4]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[5] = malloc(sizeof(auxiliar));
+    vetor[5] = malloc(sizeof(auxiliar));
     vetor[5]->linha = 3;
     vetor[5]->coluna = 3;
     vetor[5]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[6] = malloc(sizeof(auxiliar));
+    vetor[6] = malloc(sizeof(auxiliar));
     vetor[6]->linha = 3;
     vetor[6]->coluna = 6;
     vetor[6]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[7] = malloc(sizeof(auxiliar));
+    vetor[7] = malloc(sizeof(auxiliar));
     vetor[7]->linha = 6;
     vetor[7]->coluna = 0;
     vetor[7]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[8] = malloc(sizeof(auxiliar));
+    vetor[8] = malloc(sizeof(auxiliar));
     vetor[8]->linha = 6;
     vetor[8]->coluna = 3;
     vetor[8]->tabuleiro = tabuleiro;
     
-    auxiliar * vetor[9] = malloc(sizeof(auxiliar));
+    vetor[9] = malloc(sizeof(auxiliar));
     vetor[9]->linha = 6;
     vetor[9]->coluna = 6;
     vetor[9]->tabuleiro = tabuleiro;
@@ -121,10 +119,10 @@ int main(void)
     pthread_join(thread9, &quadrado9);
     
     if (linhas == 1 && colunas == 1 && quadrado1 == 1 && quadrado2 == 1 && quadrado3 == 1 && quadrado4 == 1 && quadrado5 == 1 && quadrado6 == 1 && quadrado7 == 1 && quadrado8 == 1 && quadrado9 == 1 ) {
-        printf("Sudoku está completo!\n");
+        printf("Sudoku está resolvido!\n");
     }
     else {
-        printf("Sudoku não está resolvido!.\n");
+        printf("Sudoku não está resolvido!\n");
     }
     
     return 0;
@@ -135,15 +133,15 @@ int main(void)
 // retorna 0 em caso de algum número repetido ou faltate, 1 caso contrário 
 void* check_quadrado(void* parametros) {
     auxiliar* quadrado = (auxiliar*) parametros;
-    int contador[9] = {0};
+    int contador[10] = {1};
     int i,j;
 
     // percorre todas as linhas do quadrado
-    for (i = quadrado->linha; i < 3 + quadrado->linha; i ++) {
+    for (i = quadrado->linha; i < 3 + quadrado->linha; ++i) {
         // percorre todas as colunas de uma linha
-        for (j = quadrado->coluna; j < 3 + quadrado->coluna; j++) {
+        for (j = quadrado->coluna; j < 3 + quadrado->coluna; ++j) {
             // contador é atualizado com contagem de cada número até o momento
-            contador[quadrado->tabuleiro[i][j] - 1] += 1;
+            contador[quadrado->tabuleiro[i][j]] += 1;
         }
     }
     // se, ao final, o contador tiver algum número != 1, retornar 0
@@ -161,9 +159,9 @@ void * percorrer_linhas(void * params){
     auxiliar * aux =(auxiliar *) params;
     int linha_inicial = aux->linha, coluna_inicial = aux->coluna;
 
-    for (int i = 0; i <= 10; i++){
+    for (int i = linha_inicial; i < 9; ++i){
         int linhas[10] = {0};
-        for (int j = 0; j <= 10; j++){
+        for (int j = coluna_inicial; j < 9; ++j){
             int verificar_posicao = aux->tabuleiro[i][j];
             if (linhas[verificar_posicao] != 0){
                 return (void*) 0;
@@ -181,11 +179,11 @@ void * percorrer_linhas(void * params){
 void * percorrer_colunas(void * params) {
     auxiliar * dado = (auxiliar *) params;
     int comeco_linha = dado -> linha, comeco_coluna = dado -> coluna;
-    for ( int i = comeco_coluna; i <= 10; i++) {
+    for ( int i = comeco_coluna; i < 9; ++i) {
         int coluna[10] =  {0};
-        for( int j = comeco_linha; j <= 10; j ++) {
+        for( int j = comeco_linha; j <9; ++j) {
             int num = dado->tabuleiro[j][i];
-            if (coluna[num] == 0) {
+            if (coluna[num] != 0) {
                 return (void*) 0; // a coluna nao esta preenchida
             }
             coluna[num] = 1;
