@@ -139,9 +139,9 @@ void* check_quadrado(void* parametros) {
     int i,j;
 
     // percorre todas as linhas do quadrado
-    for (i = quadrado->linha; i < 3; i ++) {
+    for (i = quadrado->linha; i < 3 + quadrado->linha; i ++) {
         // percorre todas as colunas de uma linha
-        for (j = quadrado->coluna; j < 3; j++) {
+        for (j = quadrado->coluna; j < 3 + quadrado->coluna; j++) {
             // contador é atualizado com contagem de cada número até o momento
             contador[quadrado->tabuleiro[i][j] - 1] += 1;
         }
