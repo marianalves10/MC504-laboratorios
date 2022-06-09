@@ -1,0 +1,12 @@
+--- audio_manager_private.h	2022-06-05 22:49:17.632214961 -0300
++++ audio_manager_private_fixed.h	2022-06-08 21:42:21.341020643 -0300
+@@ -12,7 +12,8 @@
+ 
+ #include "audio_manager.h"
+ 
+-int gb_audio_manager_module_create(
++int gb_audio_manager_module_create
++(
+ 	struct gb_audio_manager_module **module,
+ 	struct kset *manager_kset,
+ 	int id, struct gb_audio_manager_module_descriptor *desc);
